@@ -1,0 +1,198 @@
+* {
+    margin: 0px;
+    padding: 0;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+    text-align: center;
+}
+
+.current:hover {
+    background-color: transparent;
+    color: white;
+    text-decoration: none;
+}
+
+.card-header {
+    background-color: #343a40;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-link {
+    color: white;
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    background-color: transparent;
+    color: white;
+    text-decoration: none;
+}
+
+.text-muted {
+    text-align: center;
+}
+
+.card-header:first-child {
+    display: flex;
+}
+
+.email {
+    margin-left: 47%;
+    margin-top: 2%;
+    display: block;
+}
+
+.mb-0 {
+    text-align: center;
+}
+
+.card-header:first-child {
+    font-family: 'Exo', sans-serif;
+    margin: 0%;
+    padding: 0%;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-between; */
+}
+
+i.icon.ion-md-mail {
+    padding: 0%;
+}
+
+a.tittle {
+    margin-left: 1%;
+    font-size: 2.5rem;
+    font-family: 'Exo', sans-serif;
+}
+
+a:not([href]):not([tabindex]) {
+    font-family: 'Exo', sans-serif;
+}
+
+nav {
+    background-image: url('logo1.jpg');
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.header {
+    position: relative;
+}
+
+.filterCheckbox {
+    display: block;
+}
+
+.navigation-dropdowns{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-right: 1%;
+    margin-top: 2%;
+}
+
+.container1{
+    display: flex;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+table{
+    border-collapse: collapse;
+    margin: 20px 0;
+    /* border: 1px solid black; */
+    font-size: 0.9em;
+    /* min-width: 400px; */
+    text-align: left;
+    /* font-weight: bold; */
+    /* padding: 25px 25px; */
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 15px grey;
+    border-bottom: 1px solid black;
+    margin: 1%;
+    align-content: center;
+    border-bottom: 2px solid black;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+    margin-left: 52%;
+    table-layout: auto;
+    width: 400px;
+}
+
+th, td{
+    padding:10px;
+}
+
+tr:nth-child(odd){
+    background-color:whitesmoke;
+}
+
+tr.total{
+    background-color: white;
+}
+
+h2{
+    margin-left: 10%;
+    margin-top: 5%;
+    /* border-left: 3px solid black; */
+}
+
+h4{
+    margin-left: 10%;
+    margin-top: 5%;
+    /* border-left: 3px solid black; */
+}
+
+p{
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 2%;
+    align-content: center;
+}
+
+.divTable{
+    margin-left:30%;
+    margin-top: 3%;
+    margin-right:10%;
+    margin-bottom: 5%;
+}
+
+.divFilter{
+    /* margin-left:10%; */
+    margin-top: 3%;
+}
+
+.filterCheckbox{
+    margin-left:10%;
+    margin-top: 3%;
+}
+
+.dropdownlist{
+    margin-left:10%;
+    margin-top: 3%;
+}
+
+.Filter{
+    margin:0%;
+    margin-bottom: 2%;
+    font-weight: bold;
+}

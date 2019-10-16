@@ -1,13 +1,16 @@
 //************************************1st table - ATTENDANCE/PARTY LOYALTY at glance
 //get members of senate
 
+const currentPage = location.pathname.split("/").pop()
+// console.log(currentPage)
+
 let membersSenate = data.results[0].members.filter(member => member.votes_with_party_pct != null);
-console.log(membersSenate);
+// console.log(membersSenate);
 
 // get the number of members in each party
 // 1st way
 
-getPartyMembers();
+
 function getPartyMembers() {
     let democrats = [];
     let republicans = [];
@@ -54,15 +57,13 @@ function getPartyMembers() {
         independentsVotesPct = 0;
     }
     let totalVotesPct = (totalVotes.reduce((a, b) => a + b) / total.length);
-
     document.getElementById("democratsVotes").innerHTML = democratsVotesPct.toFixed(2) + "%";
-
     document.getElementById("republicansVotes").innerHTML = republicansVotesPct.toFixed(2) + "%";
-
     document.getElementById("independentsVotes").innerHTML = independentsVotesPct.toFixed(2) + "%"
-
     document.getElementById("totalVotes").innerHTML = totalVotesPct.toFixed(2) + "%";
 }
+
+getPartyMembers();
 
 
 // 2nd way
@@ -95,33 +96,8 @@ function getPartyMembers() {
 ////// criar function outside === array. then inside the function faço o sort. then dentro da function createtable fazer for lop to display rows.
 ///create a function that receives the data; that function should loop through the data and create an array that it will return, sorted
 
-const members = data.results[0].members;
+// const members = data.results[0].members;
 // console.log(members);
-
-function leastMost(myArrAtt, myArrLoyalty) {
-    let attendanceArray = [];
-    let loyaltyArray = [];
-
-    for (let i = 0; i < myArrAtt.length; i++) {
-        if (i < (myArrAtt.length * 0.1)) {
-            attendanceArray.push(myArrAtt[i])
-            loyaltyArray.push(myArrLoyalty[i])
-
-        } else if (attendanceArray[attendanceArray.length - 1].missed_votes == myArrAtt[i].missed_votes || loyaltyArray[loyaltyArray.length - 1].partyVotes == myArrLoyalty[i].partyVotes) {
-            attendanceArray.push(myArrAtt[i])
-            loyaltyArray.push(myArrLoyalty[i])
-        } else {
-            break;
-        }
-    }
-
-        if (location.pathname == "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/senate-attendance-starter-page.html" || "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/house-attendance-starter-page.html") {
-            return attendanceArray;
-        } else if (location.pathname == "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/senate-party-loyalty-starter-page.html" || "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/house-party-loyalty-starter-page.html"){
-            return loyaltyArray;
-        }
-
-}
 
 
 function getArray(members) {
@@ -143,7 +119,6 @@ function getArray(members) {
         let votes_with_party_pct = members[i].votes_with_party_pct;
         let partyVotes = (members[i].votes_with_party_pct / 100) * members[i].total_votes;
 
-
         arrAtt.push({fullName, missed_votes, missed_votes_pct})
 
         arrLoyalty.push({fullName, partyVotes, votes_with_party_pct})
@@ -151,14 +126,14 @@ function getArray(members) {
         }
     }
 
-    console.log(arrAtt);
-    console.log(arrLoyalty);
+    // console.log(arrAtt);
+    // console.log(arrLoyalty);
 
-    if (location.pathname == "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/senate-attendance-starter-page.html" || "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/house-attendance-starter-page.html") {
+    if (currentPage == "senate-attendance-starter-page.html") {
         return arrAtt.sort(function (a, b) {
             return a.missed_votes - b.missed_votes
         });
-    } else if (location.pathname == "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/senate-party-loyalty-starter-page.html" || "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/house-party-loyalty-starter-page.html"){
+    } else if (currentPage == "senate-party-loyalty-starter-page.html"){
         return arrLoyalty.sort(function (a, b) {
             return a.partyVotes - b.partyVotes    
         });
@@ -166,106 +141,54 @@ function getArray(members) {
 }
 }
 
-let myArrAtt = getArray(members); // to be able to use my function in the table
-let myArrLoyalty = getArray(members);
+
+let myArrAtt = getArray(membersSenate); // to be able to use my function in the table
+let myArrLoyalty = getArray(membersSenate);
 
 
-let topTenPercentArrayAtt = leastMost(myArrAtt, myArrLoyalty);
-let bottomTenPercentArrayAtt = leastMost(myArrAtt.reverse(), myArrLoyalty.reverse());
+function leastMost(myArrAtt, myArrLoyalty) {
+    console.log('inside leastMost senate')
+    let attendanceArray = [];
+    let loyaltyArray = [];
 
-let topTenPercentArrayLoyalty = leastMost(myArrAtt, myArrLoyalty);
-let bottomTenPercentArrayLoyalty = leastMost(myArrAtt.reverse(), myArrLoyalty.reverse());
+    for (let i = 0; i < myArrAtt.length; i++) {
+        if (i < (myArrAtt.length * 0.1)) {
+            attendanceArray.push(myArrAtt[i])
+            loyaltyArray.push(myArrLoyalty[i])
 
-// console.log(topTenPercentArrayAtt, bottomTenPercentArrayAtt)
+        } else if (attendanceArray[attendanceArray.length - 1].missed_votes == myArrAtt[i].missed_votes || loyaltyArray[loyaltyArray.length - 1].partyVotes == myArrLoyalty[i].partyVotes) {
+            attendanceArray.push(myArrAtt[i])
+            loyaltyArray.push(myArrLoyalty[i])
+        } else {
+            break;
+        }
+    }
 
-createTableAtt("leastSenateAtt", bottomTenPercentArrayAtt);
-createTableAtt("mostSenateAtt", topTenPercentArrayAtt);
+        if (currentPage == "senate-attendance-starter-page.html") {
+            // console.log('about to return attendance array')
+            return attendanceArray;
+        } else if (currentPage == "senate-party-loyalty-starter-page.html"){
+            console.log("loyaltyArray primeiro: ", loyaltyArray)
+            return loyaltyArray;
+        }
 
-createTableLoyalty("leastSenateLoyalty", bottomTenPercentArrayLoyalty);
-createTableLoyalty("mostSenateLoyalty", topTenPercentArrayLoyalty);
-
-
-//******************get an array of obj{name, missedvotes, pct missedvotes}
-// function getArray(members) {
-//     let arrAtt = [];
-//     let arrLoyalty = [];
-
-//     for (var i = 0; i < members.length; i++) {
-//         if (members[i].middle_name == null) {
-//             members[i].middle_name = "";
-//         }
-//         let fullName = members[i].first_name + " " + members[i].middle_name + " " + members[i].last_name;
-//         let missed_votes = members[i].missed_votes;
-//         let missed_votes_pct = members[i].missed_votes_pct;
-
-//         // let total_votes = members[i].total_votes;
-//         let votes_with_party_pct = members[i].votes_with_party_pct;
-//         let partyVotes = (members[i].votes_with_party_pct / 100) * members[i].total_votes;
-
-
-//         arrAtt.push({fullName, missed_votes, missed_votes_pct})
-
-//         arrLoyalty.push({fullName, partyVotes, votes_with_party_pct})
-//     }
-
-//     console.log(arrAtt);
-//     console.log(arrLoyalty);
-
-//     if (location.pathname == "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/senate-attendance-starter-page.html" || "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/house-attendance-starter-page.html") {
-//         return arrAtt.sort(function (a, b) {
-//             return a.missed_votes - b.missed_votes
-//         });
-//     } else if (location.pathname == "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/senate-party-loyalty-starter-page.html" || "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/house-party-loyalty-starter-page.html"){
-//         return arrLoyalty.sort(function (a, b) {
-//             return a.partyVotes - b.partyVotes    
-//         });
-
-// }
-// console.log(getArray(members));
-
-//******************get the 10% for least and most => function
-
-// its the array: name + missedvotes + pctmissedvotes
-// function leastMost(myArrAtt, myArrLoyalty) {
-//     let attendanceArray = [];
-//     let loyaltyArray = [];
-
-//     for (let i = 0; i < myArrAtt.length; i++) {
-//         if (i < (myArrAtt.length * 0.1)) {
-//             attendanceArray.push(myArrAtt[i])
-//             loyaltyArray.push(myArrLoyalty[i])
-
-//         } else if (attendanceArray[attendanceArray.length - 1].missed_votes == myArrAtt[i].missed_votes || loyaltyArray[loyaltyArray.length - 1].partyVotes == myArrLoyalty[i].partyVotes) {
-//             attendanceArray.push(myArrAtt[i])
-//             loyaltyArray.push(myArrLoyalty[i])
-//         } else {
-//             break;
-//         }
-//     }
-
-//         if (location.pathname == "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/senate-attendance-starter-page.html" || "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/house-attendance-starter-page.html") {
-//             return attendanceArray;
-//         } else if (location.pathname == "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/senate-party-loyalty-starter-page.html" || "/Users/anamargaridadossantosmatinho/Desktop/Sprint1/house-party-loyalty-starter-page.html"){
-//             return loyaltyArray;
-//         }
-
-// }
+}
 
 
 //************************************2st and 3rd table - PARTY LOYALTY most/least engaged // SENATE
 
 function createTableAtt(tableId, members) {
 
-    console.log("inside !")
+    // console.log("inside table attendance!")
 
-
-    // console.log(members.length);
     let table = document.getElementById(tableId);
-
-    // console.log(table);
+    console.log('table id: ', tableId)
+    console.log(table)
 
     // to make the 1st table empty
     // table.innerHTML = "";
+
+    if (table){
 
     for (var i = 0; i < members.length; i++) {
 
@@ -285,19 +208,21 @@ function createTableAtt(tableId, members) {
         row.insertCell().innerHTML = missed_votes_pct.toFixed(2) + "%";
         table.append(row)
     }
+}
 
 }
 
 
 function createTableLoyalty(tableId, members) {
 
-    // console.log(members.length);
     let table = document.getElementById(tableId);
-
-    console.log(table);
+    // console.log('table id: ', tableId)
+    // console.log(table)
 
     // to make the 1st table empty
     // table.innerHTML = "";
+
+   
 
     for (var i = 0; i < members.length; i++) {
 
@@ -306,12 +231,19 @@ function createTableLoyalty(tableId, members) {
         }
 
         let fullName = members[i].fullName;
+        let partyVotes = members[i].partyVotes;
         let votes_with_party_pct = members[i].votes_with_party_pct;
-        let partyVotes = (members[i].votes_with_party_pct / 100) * members[i].total_votes;
+        
+        //error::::
+        // let partyVotes = Math.round(members[i].votes_with_party_pct / 100 * 100) / 100 * total_votes;
+
+        // Math.round(num * 100) / 100
+
+        console.log("ve aqi", fullName, partyVotes, votes_with_party_pct);
 
         let row = document.createElement('tr');
         row.insertCell().innerHTML = fullName;
-        row.insertCell().innerHTML = partyVotes;
+        row.insertCell().innerHTML = partyVotes.toFixed();
         row.insertCell().innerHTML = votes_with_party_pct.toFixed(2) + "%";
         table.append(row)
     }
@@ -319,3 +251,20 @@ function createTableLoyalty(tableId, members) {
 
 }
 
+if (currentPage == "senate-attendance-starter-page.html") {
+
+    let topTenPercentArrayAtt = leastMost(myArrAtt, myArrLoyalty);
+    let bottomTenPercentArrayAtt = leastMost(myArrAtt.reverse(), myArrLoyalty.reverse());
+
+    createTableAtt("leastSenateAtt", bottomTenPercentArrayAtt);
+    createTableAtt("mostSenateAtt", topTenPercentArrayAtt);
+
+} else if (currentPage == "senate-party-loyalty-starter-page.html") {
+    console.log('we are inside here')
+
+    let topTenPercentArrayLoyalty = leastMost(myArrAtt, myArrLoyalty);
+    let bottomTenPercentArrayLoyalty = leastMost(myArrAtt.reverse(), myArrLoyalty.reverse());
+
+    createTableLoyalty("leastSenateLoyalty", bottomTenPercentArrayLoyalty);
+    createTableLoyalty("mostSenateLoyalty", topTenPercentArrayLoyalty);
+}

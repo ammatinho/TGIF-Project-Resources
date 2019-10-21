@@ -1,15 +1,54 @@
 //************************************1st table - ATTENDANCE/PARTY LOYALTY at glance
-//get members of senate
-
 const currentPage = location.pathname.split("/").pop()
 // console.log(currentPage)
 
-let membersSenate = data.results[0].members.filter(member => member.votes_with_party_pct != null);
+//get members of senate
+let membersSenate;
+let myArrAtt; //to be able to use my function in the table
+let myArrLoyalty;
+
+
+//*************************Fetching data from Propublica
+//get senate URL
+let senateUrl = "https://api.propublica.org/congress/v1/115/senate/members.json";
+
+//getData(senateUrl)
+getData(senateUrl);
+async function getData(url){
+
+    propublicaData = await fetch(url, {
+            method: "GET",
+            dataType: "jsonp",
+            headers: {
+                "X-API-Key": "3mqBYZOTjeWy2GIUrILiAvYm7SJ5zALJVSnuzItH"
+            }
+        })
+
+        .then(data => data.json())
+        .then(data => data.results[0].members)
+        .catch(err => console.log(err))
+    membersSenate = await (propublicaData.filter(member => member.votes_with_party_pct !== null))
+    await (executeAfterFetch())
+
+}
+
+//function w/ all functions used after fetch
+function executeAfterFetch(){
+
+    getPartyMembers();
+    myArrAtt = getArray(membersSenate);
+    myArrLoyalty = getArray(membersSenate);
+    someName();
+
+}
+
+//*after this the api data is available in 'members'*
+
+
+// let membersSenate = data.results[0].members.filter(member => member.votes_with_party_pct != null);
 // console.log(membersSenate);
 
 // get the number of members in each party
-// 1st way
-
 
 function getPartyMembers() {
     let democrats = [];
@@ -66,29 +105,6 @@ function getPartyMembers() {
 getPartyMembers();
 
 
-// 2nd way
-
-// function getPartyMembers() {
-//     let democrats = 0;
-//     let republicans = 0;
-//     let independents = 0;
-
-//     for (var i = 0; i < membersSenate.length; i++) {
-//         if (membersSenate[i].party.includes("D")){
-//             democrats++
-
-//         } else if (membersSenate[i].party.includes("R")){
-//             republicans++
-
-//         } else if (membersSenate[i].party.includes("I")){
-//             independents++
-//         }
-//     }
-
-//     console.log(democrats,republicans,independents)
-
-// }
-
 
 //************************************2st and 3rd table - ATTENDANCE most/least engaged // SENATE
 
@@ -140,10 +156,6 @@ function getArray(members) {
 
 }
 }
-
-
-let myArrAtt = getArray(membersSenate); // to be able to use my function in the table
-let myArrLoyalty = getArray(membersSenate);
 
 
 function leastMost(myArrAtt, myArrLoyalty) {
@@ -251,6 +263,8 @@ function createTableLoyalty(tableId, members) {
 
 }
 
+
+function someName() {
 if (currentPage == "senate-attendance-starter-page.html") {
 
     let topTenPercentArrayAtt = leastMost(myArrAtt, myArrLoyalty);
@@ -267,4 +281,5 @@ if (currentPage == "senate-attendance-starter-page.html") {
 
     createTableLoyalty("leastSenateLoyalty", bottomTenPercentArrayLoyalty);
     createTableLoyalty("mostSenateLoyalty", topTenPercentArrayLoyalty);
+}
 }

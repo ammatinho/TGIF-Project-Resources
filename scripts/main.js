@@ -1,89 +1,132 @@
-// ************************************SENATE - SPRINT 1
+// ************************************SENATE/HOUSE Congress - SPRINT 1
+const currentPage = location.pathname.split("/").pop()
 
 // document.getElementById("senate-data").innerHTML = JSON.stringify(data,null,2);
 
+// get the array of members
+let members;
 
-// Get the array of members
-console.log(data.results[0].members);
 
-const members = data.results[0].members;
+//*************************************************************************Fetching data from Propublica
+
+//get house/senate congress URL
+//create function: if location.pathname = house,  apiUrl = "https://api.propublica.org/congress/v1/115/house/members.json"
+let apiUrl;
+
+function urlLocation() {
+
+    if (currentPage == "house-starter-page%2010.50.37.html") {
+        apiUrl = "https://api.propublica.org/congress/v1/115/house/members.json";
+
+    } else if (currentPage == "senate-data%2010.50.38.html") {
+        apiUrl = "https://api.propublica.org/congress/v1/115/senate/members.json";
+    }
+}
+
+urlLocation();
+
+// let apiUrl = "https://api.propublica.org/congress/v1/115/house/members.json";
+
+
+
+//getData(Url)
+fetchData(apiUrl)
+async function fetchData(apiUrl) {
+    
+    propublicaData = await fetch(apiUrl, {
+            method: "GET",
+            dataType: "jsonp",
+            headers: {
+                "X-API-Key": "3mqBYZOTjeWy2GIUrILiAvYm7SJ5zALJVSnuzItH"
+            }
+        })
+        .then(data => data.json())
+        .then(data => data.results[0].members)
+        .catch(error => console.log(error))
+    members = await (propublicaData.filter(member => member.votes_with_party_pct !== null))
+    await (executeAfterFetch())
+}
+
+
+//function w/ all functions used after fetch
+function executeAfterFetch() {
+    console.log("data received! " + members)
+
+    createTable("mainTable", members)
+
+    document.getElementById("republican").addEventListener("click", displayFilteredTable);
+    document.getElementById("democrat").addEventListener("click", displayFilteredTable);
+    document.getElementById("independent").addEventListener("click", displayFilteredTable);
+
+    getFilteredState("filteredState")
+    document.getElementById("filteredState").addEventListener("change", displayFilteredTable);
+
+
+}
+
+
+
+
+// let members = data.results[0].members.filter(member => member.votes_with_party_pct != null);
 var selectedInput = document.getElementById("filteredState");
 var checkboxes = document.querySelectorAll("input[type = checkbox]");
 
-createTable("mainTable", members);
+
+
+// createTable("mainTable", members);
 function createTable(tableId, members) {
 
-    // console.log(members.length);
+    //create table and tbody
     let table = document.getElementById(tableId);
+    let tbl = document.createElement('tbody');
 
     // to make the 1st table empty
-    // table.innerHTML = "";
+    table.innerHTML = "";
 
-    // new row
+
+    //create thead and tr (not coming from HTML anymore)
+    //create a thead element (document.createElement... etc.)
+    let thead = document.createElement('thead');
+    let row = document.createElement('tr');
+
+    row.insertCell().innerHTML = "Name";
+    row.insertCell().innerHTML = "Party";
+    row.insertCell().innerHTML = "State";
+    row.insertCell().innerHTML = "Years in Office";
+    row.insertCell().innerHTML = "% Votes w/ Party";
+
+    //append rows 'tr' to the thead
+    thead.appendChild(row)
+
+
+    // new row of tbody (w/ data)
     for (var i = 0; i < members.length; i++) {
+        let newrow = document.createElement('tr');
 
         if (members[i].middle_name == null) {
             members[i].middle_name = "";
         }
-        // else {
-        //     members[i].middle_name;
-        // }
+
         let fullName = members[i].first_name + " " + members[i].middle_name + " " + members[i].last_name;
         let party = members[i].party;
         let state = members[i].state;
         let seniority = members[i].seniority;
         let votes = members[i].votes_with_party_pct;
 
-        // let row = document.createElement('th');
-        // row.insertCell().inner = "Name";
-        // row.insertCell().inner = "Party";
-        // row.insertCell().inner = "State";
-        // row.insertCell().inner = "Years in Office";
-        // row.insertCell().inner = "% Votes w/ Party";
 
-        let row = document.createElement('tr');
-        row.insertCell().innerHTML = fullName;
-        row.insertCell().innerHTML = party;
-        row.insertCell().innerHTML = state;
-        row.insertCell().innerHTML = seniority;
-        row.insertCell().innerHTML = votes;
-        table.append(row)
+        newrow.insertCell().innerHTML = fullName;
+        newrow.insertCell().innerHTML = party;
+        newrow.insertCell().innerHTML = state;
+        newrow.insertCell().innerHTML = seniority;
+        newrow.insertCell().innerHTML = votes;
+        tbl.appendChild(newrow);
+
     }
+
+    table.appendChild(tbl); //append body to the table
+    table.appendChild(thead); //append thead to the table
 }
 
-// ************************************HOUSE
-
-// array
-// console.log(data.results[0].members);
-// const members = data.results[0].members;
-
-// let tableHouse = document.getElementById('house-data');
-
-// new row
-//     for (var j = 0; j < members.length; j++) 
-//     {
-
-//         if (members[j].middle_name == null){
-//             members[j].middle_name = "";
-//         } 
-//         // else {
-//         //     members[j].middle_name;
-//         // }
-//         let fullName = members[j].first_name + " " + members[j].middle_name + " " + members[j].last_name;
-//         let party = members[j].party;
-//         let state = members[j].state;
-//         let seniority = members[j].seniority;
-//         let votes = members[j].votes_with_party_pct;
-
-//         let row = document.createElement('tr');
-//         row.insertCell().innerHTML = fullName;
-//         row.insertCell().innerHTML = party;
-//         row.insertCell().innerHTML = state;
-//         row.insertCell().innerHTML = seniority;
-//         row.insertCell().innerHTML = votes;
-//         tableHouse.append(row)
-//         }
-// } 
 
 
 // *********Button Read More - Read Less
@@ -108,14 +151,18 @@ function readButton() {
 
 // array with R, D, I
 function getFilteredMembers() {
+
     let filteredMembers = [];
     for (var i = 0; i < members.length; i++) {
         let party = members[i].party;
-        let state = members[i].state
-        if (getChecked().includes(party) && (selectedInput.value == state || selectedInput.value == 'all'))
+        let state = members[i].state;
+
+        if (getChecked().includes(party) && (selectedInput.value == state || selectedInput.value == 'all')) {
             filteredMembers.push(members[i]);
+
+            return filteredMembers;
+        }
     }
-    return filteredMembers;
 }
 
 
@@ -131,27 +178,21 @@ function getChecked() {
     return checked;
 }
 
+
 // create filtered table 
 function displayFilteredTable() {
+
     let newFilteredMembers = getFilteredMembers();
     createTable("mainTable", newFilteredMembers);
+
 }
 
-// event/action
-// checkboxes.forEach(checkbox => {
-//     checkbox.addEventListener("click", displayFilteredTable)
-// })
-
-
-document.getElementById("republican").addEventListener("click", displayFilteredTable);
-document.getElementById("democrat").addEventListener("click", displayFilteredTable);
-document.getElementById("independent").addEventListener("click", displayFilteredTable);
 
 
 // *********DROPDOWN LIST - SPRINT 3 EPIC 1
 // create an array of all states. get the unique values, ten sort it. Dropdown menu.
 
-getFilteredState("filteredState");
+// getFilteredState("filteredState");
 function getFilteredState(selectId) {
     let select = document.getElementById(selectId);
     // select.innerHTML = ""; //its deleting the --ALL--
@@ -175,8 +216,3 @@ function getFilteredState(selectId) {
         select.appendChild(option);
     }
 }
-
-
-// add the functionality  of filter inside my filter function
-
-document.getElementById("filteredState").addEventListener("change", displayFilteredTable);

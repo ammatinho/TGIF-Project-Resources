@@ -2,47 +2,58 @@
 const currentPage = location.pathname.split("/").pop()
 // console.log(currentPage)
 
-
-
-//*************************fetching data from Propublica
-//get house URL
-let houseUrl = "https://api.propublica.org/congress/v1/115/senate/members.json";
-
-//getData(senateUrl)
-getData(houseUrl);
-
 //get members of house
 let membersHouse;
+let myArrAtt; // to be able to use my function in the table
+let myArrLoyalty;
 
+
+//*************************Fetching data from Propublica
+//get house URL - Attendance
+let houseUrl = "https://api.propublica.org/congress/v1/115/house/members.json";
+
+//getData(houseUrl)
+getData(houseUrl);
 async function getData(url){
 
-    membersHouse = await fetch(url, {
-        method: "GET",
-        headers: {
-            "X-API-Key": "3mqBYZOTjeWy2GIUrILiAvYm7SJ5zALJVSnuzItH"
-        }
-    })
+    propublicaData = await fetch(url, {
+            method: "GET",
+            dataType: "jsonp",
+            headers: {
+                "X-API-Key": "3mqBYZOTjeWy2GIUrILiAvYm7SJ5zALJVSnuzItH"
+            }
+        })
 
-    .then(data => data.json())
-    .then(data => data.results[0].members.filter(member => member.votes_with_party_pct != null))
-    .then(
-        getPartyMembers())
-        console.log(membersHouse)
-
+        .then(data => data.json())
+        .then(data => data.results[0].members)
         .catch(err => console.log(err))
+    membersHouse = await (propublicaData.filter(member => member.votes_with_party_pct !== null))
+    await (executeAfterFetch())
+
 }
 
+//function w/ all functions used after fetch
+function executeAfterFetch(){
+    //insert function that manages visibilty of tables/loader
+    myFunction();
+    getPartyMembers();
+    myArrAtt = getArray(membersHouse);
+    myArrLoyalty = getArray(membersHouse);
+    someName();
+
+}
+//function() hides loader (applying hidden class) and removes hudden class from div containing tables
+ function myFunction(){
+    let loading = document.getElementById("loader");
+    loading.classList.add("hidden");
+    let myData = document.getElementById("dynamic-content");
+    myData.classList.remove("hidden");
+ }
+
+
+
+
 //*after this the api data is available in 'members'*
-
-
-// async function getHouseData(){
-
-//     let response = await fetch('https://api.propublica.org/congress/v1/115/senate/members.json')
-//     let user = await response.json();
-// }
-
-// getHouseData();
-
 
 
 // let membersHouse = data.results[0].members.filter(member => member.votes_with_party_pct != null);
@@ -50,7 +61,6 @@ async function getData(url){
 
 
 // get the number of members in each party
-// 1st way
 
 
 function getPartyMembers() {
@@ -93,6 +103,7 @@ function getPartyMembers() {
 
     let democratsVotesPct = (democratsVotes.reduce((a,b) => a+b) / democrats.length);
     let republicansVotesPct = (republicansVotes.reduce((a,b) => a+b)/ republicans.length);
+
     if (independentsVotes.length != 0) {
      independentsVotesPct = (independentsVotes.reduce((a,b) => a+b) / independents.length);
     } else {
@@ -109,30 +120,6 @@ function getPartyMembers() {
     document.getElementById("totalVotes").innerHTML = totalVotesPct.toFixed(2) + "%";
 }
 
-
-
-// 2nd way
-
-// function getPartyMembers() {
-//     let democrats = 0;
-//     let republicans = 0;
-//     let independents = 0;
-
-//     for (var i = 0; i < membersHouse.length; i++) {
-//         if (membersHouse[i].party.includes("D")){
-//             democrats++
-
-//         } else if (membersHouse[i].party.includes("R")){
-//             republicans++
-
-//         } else if (membersHouse[i].party.includes("I")){
-//             independents++
-//         }
-//     }
-
-//     console.log(democrats,republicans,independents)
-
-// }
 
 
 //************************************2st table - ATTENDANCE most/least engaged // HOUSE
@@ -182,10 +169,6 @@ function getArray(members) {
 
 }
 }
-
-
-let myArrAtt = getArray(membersHouse); // to be able to use my function in the table
-let myArrLoyalty = getArray(membersHouse);
 
 
 function leastMost(myArrAtt, myArrLoyalty) {
@@ -292,6 +275,7 @@ function createTableLoyalty(tableId, members) {
 
 }
 
+function someName() {
 if (currentPage == "house-attendance-starter-page.html") {
 
     let topTenPercentArrayAtt = leastMost(myArrAtt, myArrLoyalty);
@@ -306,4 +290,17 @@ if (currentPage == "house-attendance-starter-page.html") {
     let bottomTenPercentArrayLoyalty = leastMost(myArrAtt.reverse(), myArrLoyalty.reverse());
     createTableLoyalty("leastHouseLoyalty", bottomTenPercentArrayLoyalty);
     createTableLoyalty("mostHouseLoyalty", topTenPercentArrayLoyalty);
+}
+}
+
+
+
+const loading = document.getElementById("loader");
+
+if (loading) {
+
+    //display loader
+
+} else {
+    document.getElementsByClassName.add("h4", "divTable", "table");
 }

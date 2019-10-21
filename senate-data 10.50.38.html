@@ -11,6 +11,7 @@
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Exo&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
 <body>
@@ -103,18 +104,20 @@
 
         <div id="loader" class="lds-hourglass"></div>
 
-        <div class="divTable">
-            <table id="mainTable" class="table">
-                <!-- <thead class="thead-dark">
+        <div id="dynamic-content" class="hidden">
+            <div class="divTable">
+                <table id="mainTable" class="table">
+                    <!-- <thead class="thead-dark">
                     <th>Name</th>
                     <th>Party</th>
                     <th>State</th>
                     <th>Years in Office</th>
                     <th>% Votes w/ Party</th>
                 </thead> -->
-            </table>
+                </table>
+            </div>
         </div>
-    
+
     </div>
 
 

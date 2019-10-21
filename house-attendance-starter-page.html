@@ -7,6 +7,7 @@
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Exo&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
 <body onload="getPartyMembers();">
@@ -76,180 +77,74 @@
             device. In the case of a tie, the motion in question fails. In the Senate, the Vice President may (if
             present) cast the tiebreaking vote.</p>
 
-        <h2>House at a glance</h2>
-        <div class="divTable">
-            <table id="mainTable" class="table">
-                <thead class="thead-dark">
-                    <th>Party</th>
-                    <th>Number of Representatives</th>
-                    <th>% Voted w/ Party</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Democrats</td>
-                        <td id="democrats"></td>
-                        <td id="democratsVotes"></td>
-                    </tr>
 
-                    <tr>
-                        <td>Republicans</td>
-                        <td id="republicans"></td>
-                        <td id="republicansVotes"></td>
-                    </tr>
+        <div id="loader" class="lds-hourglass"></div>
 
-                    <tr>
-                        <td>Independents</td>
-                        <td id="independents"></td>
-                        <td id="independentsVotes"></td>
-                    <tr>
+        <div id="dynamic-content" class="hidden">
+            <h2>House at a glance</h2>
+            <div class="divTable">
+                <table id="mainTable" class="table">
+                    <thead class="thead-dark">
+                        <th>Party</th>
+                        <th>Number of Representatives</th>
+                        <th>% Voted w/ Party</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Democrats</td>
+                            <td id="democrats"></td>
+                            <td id="democratsVotes"></td>
+                        </tr>
 
-                    <tr class="total">
-                        <td>TOTAL</td>
-                        <td id="total"></td>
-                        <td id="totalVotes"></td>
-                    </tr>
-                </tbody>
-            </table>
+                        <tr>
+                            <td>Republicans</td>
+                            <td id="republicans"></td>
+                            <td id="republicansVotes"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Independents</td>
+                            <td id="independents"></td>
+                            <td id="independentsVotes"></td>
+                        <tr>
+
+                        <tr class="total">
+                            <td>TOTAL</td>
+                            <td id="total"></td>
+                            <td id="totalVotes"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <h2>Least Engaged (Bottom 10% Attendance)</h2>
+            <div class="divTable">
+                <table id="leastHouseAtt" class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Number of Missed Votes</th>
+                            <th>% Missed Votes</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+
+            <h2>Most Engaged (Top 10% Attendance)</h2>
+            <div class="divTable">
+                <table id="mostHouseAtt" class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Number of Missed Votes</th>
+                            <th>% Missed Votes</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
-        <!-- <table>
-            <thead>
-                <tr>
-                    <th>Party</th>
-                    <th>Number of Reps</th>
-                    <th>% Voted with Prty</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Republican</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>Democrat</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>Independent</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-            </tbody>
-        </table> -->
-
-        <h2>Least Engaged (Bottom 10% Attendance)</h2>
-        <div class="divTable">
-            <table id="leastHouseAtt" class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Name</th>
-                        <th>Number of Missed Votes</th>
-                        <th>% Missed Votes</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <!-- <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Number of Missed Votes</th>
-                    <th>% Missed</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>vbhrvbrbvher</td>
-                    <td>-hvghcvt-</td>
-                    <td>-vtcrcr-</td>
-                </tr>
-                <tr>
-                    <td>-byu-</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-            </tbody>
-        </table> -->
-
-        <h2>Most Engaged (Top 10% Attendance)</h2>
-        <div class="divTable">
-            <table id="mostHouseAtt" class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Name</th>
-                        <th>Number of Missed Votes</th>
-                        <th>% Missed Votes</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <!-- <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Number of Missed Votes</th>
-                    <th>% Missed</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                </tr>
-            </tbody>
-        </table> -->
 
     </div>
 

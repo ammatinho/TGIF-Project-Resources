@@ -7,6 +7,7 @@
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Exo&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
 <body>
@@ -100,91 +101,30 @@
             </div>
         </div>
 
-        <div class="divTable">
-            <table id="mainTable" class="table">
-                <!-- <thead class="thead-dark"> -->
-                    <!-- <tr>
-                        <th>Name</th>
-                        <th>Party</th>
-                        <th>State</th>
-                        <th>Years in Office</th>
-                        <th>% Votes w/ Party</th>
-                    </tr> -->
-                <!-- </thead> -->
+        <div id="loader" class="lds-hourglass"></div>
 
-            </table>
+        <div id="dynamic-content" class="hidden">
+            <div class="divTable">
+                <table id="mainTable" class="table">
+                </table>
+            </div>
         </div>
-        <!-- <table>
-            <thead>
-                <tr>
-                    <th>Members</th>
-                    <th>First name</th>
-                    <th>Middle name</th>
-                    <th>Last name</th>
-                    <th>Party</th>
-                    <th>Total votes</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Robert</td>
-                    <td>B.</td>
-                    <td>Aderholt</td>
-                    <td>R</td>
-                    <td>1192</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Justin</td>
-                    <td>null</td>
-                    <td>Amash</td>
-                    <td>R</td>
-                    <td>1192</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Mark</td>
-                    <td>null</td>
-                    <td>Amodei</td>
-                    <td>R</td>
-                    <td>1192</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Alma</td>
-                    <td></td>
-                    <td>Adams</td>
-                    <td>D</td>
-                    <td>48</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Spencer</td>
-                    <td>null</td>
-                    <td>Bachus</td>
-                    <td>R</td>
-                    <td>1192</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Joe</td>
-                    <td>L.</td>
-                    <td>Barton</td>
-                    <td>R</td>
-                    <td>1192</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Xavier</td>
-                    <td>null</td>
-                    <td>Becerra</td>
-                    <td>D</td>
-                    <td>1192</td>
-                </tr>
-            </tbody>
-        </table> -->
+
     </div>
+
+
+    <!-- <h1>Vue Demo #1</h1>
+    <div id="vapp">
+        <p>Hello World.</p>
+    </div>
+    <script>
+        const vueApp = new Vue({
+            el: '#vapp',
+            data: {
+                display: 'redbox'
+            }
+        })
+    </script> -->
 
     <div class="card-footer text-muted">
         2016 TGIF | All Rights Reserved

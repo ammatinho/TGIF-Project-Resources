@@ -7,6 +7,7 @@
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Exo&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
 <body onload="getPartyMembers();">
@@ -74,43 +75,46 @@
             their
             party's agenda. </p>
 
-        <h4>Senate at a glance</h4>
-        <div class="divTable">
-            <table id="mainTable" class="table">
-                <thead class="thead-dark">
-                    <th>Party</th>
-                    <th>Number of Representatives</th>
-                    <th>% Voted w/ Party</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Democrats</td>
-                        <td id="democrats"></td>
-                        <td id="democratsVotes"></td>
-                    </tr>
+        <div id="loader" class="lds-hourglass"></div>
 
-                    <tr>
-                        <td>Republicans</td>
-                        <td id="republicans"></td>
-                        <td id="republicansVotes"></td>
-                    </tr>
+        <div id="dynamic-content" class="hidden">
+            <h4>Senate at a glance</h4>
+            <div class="divTable">
+                <table id="mainTable" class="table">
+                    <thead class="thead-dark">
+                        <th>Party</th>
+                        <th>Number of Representatives</th>
+                        <th>% Voted w/ Party</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Democrats</td>
+                            <td id="democrats"></td>
+                            <td id="democratsVotes"></td>
+                        </tr>
 
-                    <tr>
-                        <td>Independents</td>
-                        <td id="independents"></td>
-                        <td id="independentsVotes"></td>
-                    <tr>
+                        <tr>
+                            <td>Republicans</td>
+                            <td id="republicans"></td>
+                            <td id="republicansVotes"></td>
+                        </tr>
 
-                    <tr class="total">
-                        <td>TOTAL</td>
-                        <td id="total"></td>
-                        <td id="totalVotes"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <!-- </div> -->
-        <!-- <table>
+                        <tr>
+                            <td>Independents</td>
+                            <td id="independents"></td>
+                            <td id="independentsVotes"></td>
+                        <tr>
+
+                        <tr class="total">
+                            <td>TOTAL</td>
+                            <td id="total"></td>
+                            <td id="totalVotes"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- </div> -->
+            <!-- <table>
             <thead>
                 <tr>
                     <th>Party</th>
@@ -137,17 +141,17 @@
             </tbody>
         </table> -->
 
-        <h4>Least Loyal (Bottom 10% of Party)</h4>
-        <div class="divTable">
-            <table id="leastSenateLoyalty" class="table">
-                <thead class="thead-dark">
-                    <th>Name</th>
-                    <th>Number of Party Votes</th>
-                    <th>% Party Votes</th>
-                </thead>
-            </table>
-        </div>
-        <!-- <table>
+            <h4>Least Loyal (Bottom 10% of Party)</h4>
+            <div class="divTable">
+                <table id="leastSenateLoyalty" class="table">
+                    <thead class="thead-dark">
+                        <th>Name</th>
+                        <th>Number of Party Votes</th>
+                        <th>% Party Votes</th>
+                    </thead>
+                </table>
+            </div>
+            <!-- <table>
             <thead>
                 <tr>
                     <th>Name</th>
@@ -189,17 +193,17 @@
             </tbody>
         </table> -->
 
-        <h4>Most Loyal (Top 10% of Party)</h4>
-        <div class="divTable">
-            <table id="mostSenateLoyalty" class="table">
-                <thead class="thead-dark">
-                    <th>Name</th>
-                    <th>Number of Party Votes</th>
-                    <th>% Party Votes</th>
-                </thead>
-            </table>
-        </div>
-        <!-- <table>
+            <h4>Most Loyal (Top 10% of Party)</h4>
+            <div class="divTable">
+                <table id="mostSenateLoyalty" class="table">
+                    <thead class="thead-dark">
+                        <th>Name</th>
+                        <th>Number of Party Votes</th>
+                        <th>% Party Votes</th>
+                    </thead>
+                </table>
+            </div>
+            <!-- <table>
             <thead>
                 <tr>
                     <th>Name</th>
@@ -245,7 +249,7 @@
                 </tr>
             </tbody>
         </table> -->
-
+        </div>
     </div>
 
     <div class="card-footer text-muted">

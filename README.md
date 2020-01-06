@@ -13,7 +13,7 @@ Steps of the process:
 - Added drop-down menu 
 - Calculate the statistics and algorithms in Javascript
 
-Visit my project here - https://ammatinho.github.io/TGIF-Project-Resources/
+Visit my project here - 
 
 Technologies used:
 

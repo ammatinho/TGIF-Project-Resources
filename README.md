@@ -19,5 +19,5 @@ Technologies used:
 
 < JavaScript and JavaScript libraries, such as jQuery and Vue JS AJAX (Asynchronous JavaScript and XML) 
 to communicate directly with web services from a web page JSON (JavaScript Object Notation) 
-RESTful (Representational State Transfer) APIs (Application Program Interfaces) to standardize the messages
+RESTful (Representational State Transfer) APIs (Application Program Interfaces) to standardise the messages
 used to get JSON objects with AJAX calls />

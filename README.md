@@ -3,7 +3,7 @@
 NOTE: If live data is not loading, API key might have expired!!!!!
 
 Created a Congressional tracking web site for Transparent Government in Fact (TGIF), a non-partisan non-profit 
-organization working to increase the public’s involvement in government.
+organisation working to increase the public’s involvement in government.
 
 Steps of the process:
 
